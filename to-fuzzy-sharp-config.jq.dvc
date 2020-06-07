@@ -1,0 +1,10 @@
+md5: e09bbe5558afa319a88b6a81c9f223f7
+frozen: true
+deps:
+- path: script-data/to-fuzzy-sharp-config.jq
+  repo:
+    url: https://github.com/giganticode/lm-context-experiments
+    rev_lock: fc5d383187f26ae6787253f3c6c975567dd89cca
+outs:
+- md5: 3825af7e45f80d0f050b6f7a0f1f5313
+  path: to-fuzzy-sharp-config.jq

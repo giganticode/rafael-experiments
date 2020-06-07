@@ -1,0 +1,33 @@
+extract-devanbu-small-corpus:
+  cmd: unzip devanbu-small-corpus.zip -d devanbu-small-corpus
+  deps:
+  - path: devanbu-small-corpus.zip
+    md5: 53ef1189ccdc6a53b7545d06bbf13278
+  outs:
+  - path: devanbu-small-corpus
+    md5: fbfc6bc25a11e40705a235b12e9f0637.dir
+training:
+  cmd: jq "$(<to-fuzzy-sharp-config.jq)" config.json > params.json && virtualenv .venv
+    && source .venv/bin/activate && LANGMODELS_COMMIT_HASH=$(<langmodels-commit-hash.txt)
+    && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_COMMIT_HASH/requirements.txt
+    && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_COMMIT_HASH
+    && langmodels train --config=$(pwd)/config.json --output-path=$(pwd)/output --patch="corpus.path=$(pwd)/devanbu-small-corpus"
+    --rewrite-output; rm -rf .venv
+  deps:
+  - path: config.json
+    md5: 223b2d3c5dab30c74005811001d017a1
+  - path: devanbu-small-corpus
+    md5: fbfc6bc25a11e40705a235b12e9f0637.dir
+  - path: langmodels-commit-hash.txt
+    md5: be4f65073f239b49ffd8b8ec31d10888
+  - path: to-fuzzy-sharp-config.jq
+    md5: 3825af7e45f80d0f050b6f7a0f1f5313
+  outs:
+  - path: output/best.pth
+    md5: f2bd6a0afe7e5da93e2c79c3e51ca97b
+  - path: output/config
+    md5: 3cd7eb9fcbb77a63420643053c4ec22f
+  - path: output/training_metrics.csv
+    md5: 31c970fd521a550d73c8533dda10ec1c
+  - path: output/vocab
+    md5: aba24cefec82fe4f88183d35b6b6c4b1

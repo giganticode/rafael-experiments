@@ -1,0 +1,25 @@
+stages:
+  extract-devanbu-small-corpus:
+    cmd: unzip devanbu-small-corpus.zip -d devanbu-small-corpus
+    deps:
+    - devanbu-small-corpus.zip
+    outs:
+    - devanbu-small-corpus
+  training:
+    cmd: jq "$(<to-fuzzy-sharp-config.jq)" config.json > params.json && virtualenv
+      .venv && source .venv/bin/activate && LANGMODELS_COMMIT_HASH=$(<langmodels-commit-hash.txt)
+      && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_COMMIT_HASH/requirements.txt
+      && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_COMMIT_HASH
+      && langmodels train --config=$(pwd)/config.json --output-path=$(pwd)/output
+      --patch="corpus.path=$(pwd)/devanbu-small-corpus" --rewrite-output; rm -rf .venv
+    deps:
+    - config.json
+    - devanbu-small-corpus
+    - langmodels-commit-hash.txt
+    - to-fuzzy-sharp-config.jq
+    outs:
+    - output/best.pth
+    - output/config
+    - output/training_metrics.csv:
+        cache: false
+    - output/vocab

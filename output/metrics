@@ -1,0 +1,1 @@
+{"best_epoch": 0, "bin_entropy": 5.232500076293945, "config_version": "0.0.4-alpha.0", "n_epochs": 1, "size_on_disk_mb": 2, "trainable_params": 703136, "training_time_minutes_per_epoch": 7}
