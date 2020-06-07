@@ -1,0 +1,10 @@
+md5: ecc4f5ec99fb245fa608e524f308fc93
+frozen: true
+deps:
+- path: data/devanbu-small-corpus.zip
+  repo:
+    url: https://github.com/giganticode/datasets
+    rev_lock: 6851ce644c6da120d5befdc23b96d7f65e0f091a
+outs:
+- md5: e4fdca3d63c0c2cb8f3aaf806c91b129
+  path: devanbu-small-corpus.zip
