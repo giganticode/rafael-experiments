@@ -15,7 +15,7 @@ training:
     --rewrite-output; rm -rf .venv
   deps:
   - path: config.json
-    md5: 223b2d3c5dab30c74005811001d017a1
+    md5: 98bee909427b4c4c5823b721b39e35f7
   - path: devanbu-small-corpus
     md5: fbfc6bc25a11e40705a235b12e9f0637.dir
   - path: langmodels-commit-hash.txt
@@ -24,11 +24,11 @@ training:
     md5: 3825af7e45f80d0f050b6f7a0f1f5313
   outs:
   - path: output/best.pth
-    md5: f2bd6a0afe7e5da93e2c79c3e51ca97b
+    md5: 3fb62b451ffbda6245b4efcaf4e4e359
   - path: output/config
-    md5: 3cd7eb9fcbb77a63420643053c4ec22f
+    md5: c54f4b65bd3969c0257b56f50e3888bf
   - path: output/training_metrics.csv
-    md5: 31c970fd521a550d73c8533dda10ec1c
+    md5: 36c2e17bddfb1985dd3ae2699de22da1
   - path: output/vocab
     md5: aba24cefec82fe4f88183d35b6b6c4b1
 evaluation:

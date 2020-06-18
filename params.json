@@ -15,7 +15,7 @@
   "dropout": 0.4,
   "alpha": 2,
   "beta": 1,
-  "epochs": 1,
+  "epochs": 3,
   "prep_function_name": "bpe",
   "prep_function_param": "10k",
   "no_com": true,
