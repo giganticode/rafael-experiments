@@ -23,3 +23,14 @@ stages:
     - output/training_metrics.csv:
         cache: false
     - output/vocab
+  evaluation:
+    cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
+      && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
+      && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
+      && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/valid -o
+      $(pwd)/evaluation -b 64; rm -rf .venv
+    deps:
+    - devanbu-small-corpus
+    - langmodels-v2-commit-hash.txt
+    outs:
+    - evaluation
