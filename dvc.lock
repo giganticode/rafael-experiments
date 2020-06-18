@@ -45,3 +45,17 @@ evaluation:
   outs:
   - path: evaluation
     md5: 498a7aa750357061c3be9b9718a3ae35.dir
+evaluation-test:
+  cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
+    && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
+    && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
+    && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o $(pwd)/evaluation-test
+    -b 64; rm -rf .venv
+  deps:
+  - path: devanbu-small-corpus
+    md5: fbfc6bc25a11e40705a235b12e9f0637.dir
+  - path: langmodels-v2-commit-hash.txt
+    md5: 06c04948605698c77d7e248bb65f8576
+  outs:
+  - path: evaluation-test
+    md5: 06182f1e62c8089d3651e8ba918b8911.dir
