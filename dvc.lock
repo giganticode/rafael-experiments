@@ -38,6 +38,8 @@ evaluation:
     && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/valid -o
     $(pwd)/evaluation -b 64; rm -rf .venv
   deps:
+  - path: output/best.pth
+    md5: f2bd6a0afe7e5da93e2c79c3e51ca97b
   - path: devanbu-small-corpus
     md5: fbfc6bc25a11e40705a235b12e9f0637.dir
   - path: langmodels-v2-commit-hash.txt
@@ -52,6 +54,8 @@ evaluation-test:
     && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o $(pwd)/evaluation-test
     -b 64; rm -rf .venv
   deps:
+  - path: output/best.pth
+    md5: f2bd6a0afe7e5da93e2c79c3e51ca97b
   - path: devanbu-small-corpus
     md5: fbfc6bc25a11e40705a235b12e9f0637.dir
   - path: langmodels-v2-commit-hash.txt
