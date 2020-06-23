@@ -9,16 +9,16 @@
       "outi": 0.65,
       "w": 0.5
     },
-    "emb_sz": 40,
-    "n_hid": 115,
-    "n_layers": 3,
-    "name": "lstm",
+    "emb_sz": 512,
+    "n_hid": 512,
+    "n_layers": 1,
+    "name": "gru",
     "out_bias": true,
     "tie_weights": true
   },
   "base_model": null,
-  "bptt": 70,
-  "bs": 16,
+  "bptt": 200,
+  "bs": 32,
   "corpus": {
     "extensions": "java",
     "path": "/path/to/dataset"
@@ -39,14 +39,14 @@
       "alpha": 2,
       "beta": 1
     },
-    "gradient_clip": 0.3,
+    "gradient_clip": 5.0,
     "optimizer": {
       "momentum": 0.0,
       "name": "sgd"
     },
     "schedule": {
-      "init_lr": 30.0,
-      "max_epochs": 3,
+      "init_lr": 0.1,
+      "max_epochs": 20,
       "max_lr_reduction_times": 6,
       "mult_coeff": 0.5,
       "name": "rafael",

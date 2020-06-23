@@ -12,25 +12,33 @@ training:
     && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_COMMIT_HASH/requirements.txt
     && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_COMMIT_HASH
     && langmodels train --config=$(pwd)/config.json --output-path=$(pwd)/output --patch="corpus.path=$(pwd)/devanbu-small-corpus"
-    --rewrite-output; rm -rf .venv
+    --rewrite-output --save-every-epoch; rm -rf .venv
   deps:
   - path: config.json
-    md5: 98bee909427b4c4c5823b721b39e35f7
+    md5: 7bdf5101f66c852c854f84ef46bcfc58
   - path: devanbu-small-corpus
     md5: fbfc6bc25a11e40705a235b12e9f0637.dir
   - path: langmodels-commit-hash.txt
-    md5: be4f65073f239b49ffd8b8ec31d10888
+    md5: 624c26ac32793002f97cfd44caaf95d8
   - path: to-fuzzy-sharp-config.jq
     md5: 3825af7e45f80d0f050b6f7a0f1f5313
   outs:
-  - path: output/best.pth
-    md5: 3fb62b451ffbda6245b4efcaf4e4e359
   - path: output/config
-    md5: c54f4b65bd3969c0257b56f50e3888bf
+    md5: 0976e71377eed9a726e4538e7afdea4b
+  - path: output/epoch_0.pth
+    md5: 2e599659bdcd305e135ccc4993c26bb5
+  - path: output/epoch_10.pth
+    md5: eb256af30c7247bb4fa58c609d240036
+  - path: output/epoch_19.pth
+    md5: b356cc430b4885b697be21d665dfd9bc
+  - path: output/epoch_2.pth
+    md5: 8f67f1c7f66d0e36b11c99bf5828dba9
+  - path: output/epoch_5.pth
+    md5: ef0d8b3c86352f779198992179d1a2b1
   - path: output/training_metrics.csv
-    md5: 36c2e17bddfb1985dd3ae2699de22da1
+    md5: 53e2fdc35b2691390cc9cb4b3df84cd9
   - path: output/vocab
-    md5: aba24cefec82fe4f88183d35b6b6c4b1
+    md5: c5463963c945d04dcbcf3927ec3fb04c
 evaluation:
   cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
     && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
@@ -51,15 +59,31 @@ evaluation-test:
   cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
     && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
     && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
-    && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o $(pwd)/evaluation-test
+    && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o $(pwd)/evaluation-test-0
     -b 64; rm -rf .venv
   deps:
-  - path: output/best.pth
-    md5: f2bd6a0afe7e5da93e2c79c3e51ca97b
   - path: devanbu-small-corpus
     md5: fbfc6bc25a11e40705a235b12e9f0637.dir
   - path: langmodels-v2-commit-hash.txt
-    md5: 06c04948605698c77d7e248bb65f8576
+    md5: 501d7799c83977aba7427cd1e397ef98
+  - path: output/epoch_0.pth
+    md5: 2e599659bdcd305e135ccc4993c26bb5
   outs:
-  - path: evaluation-test
-    md5: 06182f1e62c8089d3651e8ba918b8911.dir
+  - path: evaluation-test-0
+    md5: d3a25253ec38ab31bda4f7206c935312.dir
+evaluation-test-19:
+  cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
+    && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
+    && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
+    && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o $(pwd)/evaluation-test-19
+    -b 64; rm -rf .venv
+  deps:
+  - path: devanbu-small-corpus
+    md5: fbfc6bc25a11e40705a235b12e9f0637.dir
+  - path: langmodels-v2-commit-hash.txt
+    md5: 501d7799c83977aba7427cd1e397ef98
+  - path: output/epoch_19.pth
+    md5: b356cc430b4885b697be21d665dfd9bc
+  outs:
+  - path: evaluation-test-19
+    md5: 7530c3a43807f3650f7faf64d5fc40c8.dir

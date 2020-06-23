@@ -11,14 +11,18 @@ stages:
       && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_COMMIT_HASH/requirements.txt
       && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_COMMIT_HASH
       && langmodels train --config=$(pwd)/config.json --output-path=$(pwd)/output
-      --patch="corpus.path=$(pwd)/devanbu-small-corpus" --rewrite-output; rm -rf .venv
+      --patch="corpus.path=$(pwd)/devanbu-small-corpus" --rewrite-output --save-every-epoch; rm -rf .venv
     deps:
     - config.json
     - devanbu-small-corpus
     - langmodels-commit-hash.txt
     - to-fuzzy-sharp-config.jq
     outs:
-    - output/best.pth
+    - output/epoch_0.pth
+    - output/epoch_2.pth
+    - output/epoch_5.pth
+    - output/epoch_10.pth
+    - output/epoch_19.pth
     - output/config
     - output/training_metrics.csv:
         cache: false
@@ -40,10 +44,22 @@ stages:
       && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
       && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
       && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o
-      $(pwd)/evaluation-test -b 64; rm -rf .venv
+      $(pwd)/evaluation-test-0 -b 64; rm -rf .venv
     deps:
-    - output/best.pth
+    - output/epoch_0.pth
     - devanbu-small-corpus
     - langmodels-v2-commit-hash.txt
     outs:
-    - evaluation-test
+    - evaluation-test-0
+  evaluation-test-19:
+    cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
+      && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
+      && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
+      && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o
+      $(pwd)/evaluation-test-19 -b 64; rm -rf .venv
+    deps:
+    - output/epoch_19.pth
+    - devanbu-small-corpus
+    - langmodels-v2-commit-hash.txt
+    outs:
+    - evaluation-test-19
