@@ -15,7 +15,7 @@ training:
     --rewrite-output --save-every-epoch; rm -rf .venv
   deps:
   - path: config.json
-    md5: 7bdf5101f66c852c854f84ef46bcfc58
+    md5: 0f22cb43b91673a30528f2758371c347
   - path: devanbu-small-corpus
     md5: fbfc6bc25a11e40705a235b12e9f0637.dir
   - path: langmodels-commit-hash.txt
@@ -24,19 +24,21 @@ training:
     md5: 3825af7e45f80d0f050b6f7a0f1f5313
   outs:
   - path: output/config
-    md5: 0976e71377eed9a726e4538e7afdea4b
+    md5: 325610e9acffef30c16fc53c3df0c0f4
   - path: output/epoch_0.pth
-    md5: 2e599659bdcd305e135ccc4993c26bb5
+    md5: b48726fe57c50d02330b6d59b574f1e5
   - path: output/epoch_10.pth
-    md5: eb256af30c7247bb4fa58c609d240036
+    md5: 72db6ecac87e986362a1ccc1690b23d1
   - path: output/epoch_19.pth
-    md5: b356cc430b4885b697be21d665dfd9bc
+    md5: 1c9e316a2dcff380d182c08768011f72
   - path: output/epoch_2.pth
-    md5: 8f67f1c7f66d0e36b11c99bf5828dba9
+    md5: 47f3928da5c22b03193dd603df6013d0
   - path: output/epoch_5.pth
-    md5: ef0d8b3c86352f779198992179d1a2b1
+    md5: 970293c0a27b13c75b04dbd2b9404972
+  - path: output/epoch_79.pth
+    md5: 4a7fa3de97abfd88913ddfb40e6dcf36
   - path: output/training_metrics.csv
-    md5: 53e2fdc35b2691390cc9cb4b3df84cd9
+    md5: f410094fcd03965ee640a63900ecb7f3
   - path: output/vocab
     md5: c5463963c945d04dcbcf3927ec3fb04c
 evaluation:
@@ -87,3 +89,19 @@ evaluation-test-19:
   outs:
   - path: evaluation-test-19
     md5: 7530c3a43807f3650f7faf64d5fc40c8.dir
+evaluation-test-79:
+  cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
+    && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
+    && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
+    && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o $(pwd)/evaluation-test-79
+    -b 64; rm -rf .venv
+  deps:
+  - path: devanbu-small-corpus
+    md5: fbfc6bc25a11e40705a235b12e9f0637.dir
+  - path: langmodels-v2-commit-hash.txt
+    md5: 501d7799c83977aba7427cd1e397ef98
+  - path: output/epoch_79.pth
+    md5: 4a7fa3de97abfd88913ddfb40e6dcf36
+  outs:
+  - path: evaluation-test-79
+    md5: a4fd5dfe318267010b8acb1c918a642b.dir

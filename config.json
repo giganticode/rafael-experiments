@@ -46,7 +46,7 @@
     },
     "schedule": {
       "init_lr": 0.1,
-      "max_epochs": 20,
+      "max_epochs": 80,
       "max_lr_reduction_times": 6,
       "mult_coeff": 0.5,
       "name": "rafael",

@@ -23,6 +23,7 @@ stages:
     - output/epoch_5.pth
     - output/epoch_10.pth
     - output/epoch_19.pth
+    - output/epoch_79.pth
     - output/config
     - output/training_metrics.csv:
         cache: false
@@ -63,3 +64,15 @@ stages:
     - langmodels-v2-commit-hash.txt
     outs:
     - evaluation-test-19
+  evaluation-test-79:
+    cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
+      && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
+      && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
+      && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o
+      $(pwd)/evaluation-test-79 -b 64; rm -rf .venv
+    deps:
+    - output/epoch_79.pth
+    - devanbu-small-corpus
+    - langmodels-v2-commit-hash.txt
+    outs:
+    - evaluation-test-79
