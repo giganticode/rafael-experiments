@@ -1,1 +1,1 @@
-{"best_epoch": 79, "bin_entropy": 4.124215602874756, "config_version": "0.0.4-alpha.0", "n_epochs": 80, "size_on_disk_mb": 24, "trainable_params": 7203036, "training_time_minutes_per_epoch": 4}
+{"best_epoch": 143, "bin_entropy": 4.2804388999938965, "config_version": "0.0.4-alpha.0", "n_epochs": 166, "size_on_disk_mb": 24, "trainable_params": 7203036, "training_time_minutes_per_epoch": 4}

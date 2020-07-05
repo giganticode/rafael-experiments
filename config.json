@@ -18,7 +18,7 @@
   },
   "base_model": null,
   "bptt": 200,
-  "bs": 32,
+  "bs": 64,
   "corpus": {
     "extensions": "java",
     "path": "/path/to/dataset"
@@ -46,8 +46,8 @@
     },
     "schedule": {
       "init_lr": 0.1,
-      "max_epochs": 80,
-      "max_lr_reduction_times": 6,
+      "max_epochs": 300,
+      "max_lr_reduction_times": 10,
       "mult_coeff": 0.5,
       "name": "rafael",
       "patience": 1

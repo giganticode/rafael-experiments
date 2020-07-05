@@ -24,55 +24,56 @@ stages:
     - output/epoch_10.pth
     - output/epoch_19.pth
     - output/epoch_79.pth
+    - output/epoch_159.pth
     - output/config
     - output/training_metrics.csv:
         cache: false
     - output/vocab
-  evaluation:
-    cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
-      && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
-      && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
-      && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/valid -o
-      $(pwd)/evaluation -b 64; rm -rf .venv
-    deps:
-    - output/best.pth
-    - devanbu-small-corpus
-    - langmodels-v2-commit-hash.txt
-    outs:
-    - evaluation
-  evaluation-test:
-    cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
+  evaluation-0:
+    cmd: virtualenv .venv0 && source .venv0/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
       && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
       && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
       && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o
-      $(pwd)/evaluation-test-0 -b 64; rm -rf .venv
+      $(pwd)/evaluation-test-0 -b 64 -e 0; rm -rf .venv0
     deps:
     - output/epoch_0.pth
     - devanbu-small-corpus
     - langmodels-v2-commit-hash.txt
     outs:
     - evaluation-test-0
-  evaluation-test-19:
-    cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
+  evaluation-19:
+    cmd: virtualenv .venv19 && source .venv19/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
       && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
       && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
       && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o
-      $(pwd)/evaluation-test-19 -b 64; rm -rf .venv
+      $(pwd)/evaluation-test-19 -b 64 -e 19; rm -rf .venv19
     deps:
     - output/epoch_19.pth
     - devanbu-small-corpus
     - langmodels-v2-commit-hash.txt
     outs:
     - evaluation-test-19
-  evaluation-test-79:
-    cmd: virtualenv .venv && source .venv/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
+  evaluation-79:
+    cmd: virtualenv .venv79 && source .venv79/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
       && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
       && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
       && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o
-      $(pwd)/evaluation-test-79 -b 64; rm -rf .venv
+      $(pwd)/evaluation-test-79 -b 64 -e 79; rm -rf .venv79
     deps:
     - output/epoch_79.pth
     - devanbu-small-corpus
     - langmodels-v2-commit-hash.txt
     outs:
     - evaluation-test-79
+  evaluation-159:
+    cmd: virtualenv .venv159 && source .venv159/bin/activate && LANGMODELS_V2_COMMIT_HASH=$(<langmodels-v2-commit-hash.txt)
+      && pip install -r https://raw.githubusercontent.com/giganticode/langmodels/$LANGMODELS_V2_COMMIT_HASH/requirements.txt
+      && pip install git+https://github.com/giganticode/langmodels@$LANGMODELS_V2_COMMIT_HASH
+      && langmodels evaluate $(pwd)/output  -p $(pwd)/devanbu-small-corpus/test -o
+      $(pwd)/evaluation-test-159 -b 64 -e 159; rm -rf .venv159
+    deps:
+    - output/epoch_159.pth
+    - devanbu-small-corpus
+    - langmodels-v2-commit-hash.txt
+    outs:
+    - evaluation-test-159
